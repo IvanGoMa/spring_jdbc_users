@@ -36,17 +36,24 @@ public class UserRepository {
 
     public void createUser(User user){
         jdbcTemplate.update("INSERT IGNORE INTO users VALUES (?,?,?,?,?,?,?,?)",
-        user.getId(),user.getNom(),user.getDescripcio(),user.getEmail(),user.getContrasenya(),
-        user.getUltimAcces(),user.getData_creacio(),user.getData_actualitzat());
+            user.getId(),user.getNom(),user.getDescripcio(),user.getEmail(),user.getContrasenya(),
+            user.getUltimAcces(),user.getData_creacio(),user.getData_actualitzat());
     }
 
     public User readUser(long id){
-        return jdbcTemplate.query("SELECT * FROM users WHERE ID = (?)",id, new UserRowMapper());
+        return jdbcTemplate.queryForObject("SELECT * FROM users WHERE ID = (?)", new UserRowMapper(),id);
         
     }
 
-    public void updateUser(User user){
-        jdbcTemplate.update("UPDATE", null)
+    public void updateUser(long id, User user){
+        String query = "UPDATE users set nom = ?, descripcio = ?, email = ?, contrasenya = ?, ultim_acces = ?, data_creacio = ?, data_actualitzat = ? where id = ?";
+        jdbcTemplate.update(query, user.getNom(), user.getDescripcio(), user.getEmail(), user.getContrasenya(), user.getUltimAcces(), user.getData_creacio(), user.getData_actualitzat(), id);
+    }
+
+    public void updateUser(long id, String name){
+        String query = "UPDATE users set nom = ? where id = ?";
+        jdbcTemplate.update(query, name, id);
+     
     }
     public void deleteUser(long id){
         jdbcTemplate.update("DELETE FROM users WHERE id = (?)",id);

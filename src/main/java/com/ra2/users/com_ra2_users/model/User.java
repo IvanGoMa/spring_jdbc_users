@@ -73,6 +73,13 @@ public class User {
     public Date getData_actualitzat() {
         return data_actualitzat;
     }
+    @Override
+    public String toString() {
+        return "User [getId()=" + getId() + ", getNom()=" + getNom() + ", getDescripcio()=" + getDescripcio()
+                + ", getEmail()=" + getEmail() + ", getContrasenya()=" + getContrasenya() + ", getUltimAcces()="
+                + getUltimAcces() + ", getData_creacio()=" + getData_creacio() + ", getData_actualitzat()="
+                + getData_actualitzat() + "]";
+    }
     
     
 }
