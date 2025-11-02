@@ -1,6 +1,7 @@
 package com.ra2.users.com_ra2_users.repository;
 
 
+import java.sql.Timestamp;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
@@ -22,13 +23,13 @@ public class UserRepository {
         public User mapRow(ResultSet rs, int rowNum) throws SQLException {
             User user = new User();
             user.setContrasenya(rs.getString("contrasenya"));
-            user.setData_actualitzat(rs.getDate("data_actualitzat"));
-            user.setData_creacio(rs.getDate("data_creacio"));
+            user.setDataUpdated(rs.getTimestamp("data_actualitzat"));
+            user.setDataCreated(rs.getTimestamp("data_creacio"));
             user.setDescripcio(rs.getString("descripcio"));
             user.setEmail(rs.getString("email"));
             user.setId(rs.getLong("id"));
             user.setNom(rs.getString("nom"));
-            user.setUltimAcces(rs.getDate("ultim_acces"));
+            user.setUltimAcces(rs.getTimestamp("ultim_acces"));
             return user;
         }
 
@@ -37,7 +38,7 @@ public class UserRepository {
     public void createUser(User user){
         jdbcTemplate.update("INSERT IGNORE INTO users VALUES (?,?,?,?,?,?,?,?)",
             user.getId(),user.getNom(),user.getDescripcio(),user.getEmail(),user.getContrasenya(),
-            user.getUltimAcces(),user.getData_creacio(),user.getData_actualitzat());
+            user.getUltimAcces(),user.getDataCreated(),user.getDataUpdated());
     }
 
     public User readUser(long id){
@@ -47,16 +48,16 @@ public class UserRepository {
 
     public void updateUser(long id, User user){
         String query = "UPDATE users set nom = ?, descripcio = ?, email = ?, contrasenya = ?, ultim_acces = ?, data_creacio = ?, data_actualitzat = ? where id = ?";
-        jdbcTemplate.update(query, user.getNom(), user.getDescripcio(), user.getEmail(), user.getContrasenya(), user.getUltimAcces(), user.getData_creacio(), user.getData_actualitzat(), id);
+        jdbcTemplate.update(query, user.getNom(), user.getDescripcio(), user.getEmail(), user.getContrasenya(), user.getUltimAcces(), user.getDataCreated(), user.getDataUpdated(), id);
     }
 
-    public void updateUser(long id, String name){
-        String query = "UPDATE users set nom = ? where id = ?";
-        jdbcTemplate.update(query, name, id);
+    public void updateUser(long id, String name, Timestamp time){
+        String query = "UPDATE users set nom = ?, data_actualitzat = ? where id = ?";
+        jdbcTemplate.update(query, name, time, id);
      
     }
     public void deleteUser(long id){
-        jdbcTemplate.update("DELETE FROM users WHERE id = (?)",id);
+        jdbcTemplate.update("DELETE FROM users WHERE id = ?",id);
     }
     
     public List<User> findAll(){

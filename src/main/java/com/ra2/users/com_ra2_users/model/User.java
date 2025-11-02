@@ -1,6 +1,6 @@
 package com.ra2.users.com_ra2_users.model;
 
-import java.util.Date;
+import java.sql.Timestamp;
 
 
 public class User {
@@ -9,20 +9,20 @@ public class User {
     private String descripcio;
     private String email;
     private String contrasenya;
-    private Date ultimAcces;
-    private Date data_creacio;
-    private Date data_actualitzat;
+    private Timestamp ultimAcces;
+    private Timestamp dataCreated;
+    private Timestamp dataUpdated;
     
-    public User(long id, String nom, String descripcio, String email, String contrasenya, Date ultimAcces,
-            Date data_creacio, Date data_actualitzat) {
+    public User(long id, String nom, String descripcio, String email, String contrasenya, Timestamp ultimAcces,
+            Timestamp dataCreated, Timestamp dataUpdated) {
         this.id = id;
         this.nom = nom;
         this.descripcio = descripcio;
         this.email = email;
         this.contrasenya = contrasenya;
         this.ultimAcces = ultimAcces;
-        this.data_creacio = data_creacio;
-        this.data_actualitzat = data_actualitzat;
+        this.dataCreated = dataCreated;
+        this.dataUpdated = dataUpdated;
     }
     public User(){}
     public void setId(long id) {
@@ -40,14 +40,14 @@ public class User {
     public void setContrasenya(String contrasenya) {
         this.contrasenya = contrasenya;
     }
-    public void setUltimAcces(Date ultimAcces) {
+    public void setUltimAcces(Timestamp ultimAcces) {
         this.ultimAcces = ultimAcces;
     }
-    public void setData_creacio(Date data_creacio) {
-        this.data_creacio = data_creacio;
+    public void setDataCreated(Timestamp dataCreated) {
+        this.dataCreated = dataCreated;
     }
-    public void setData_actualitzat(Date data_actualitzat) {
-        this.data_actualitzat = data_actualitzat;
+    public void setDataUpdated(Timestamp dataUpdated) {
+        this.dataUpdated = dataUpdated;
     }
     public long getId() {
         return id;
@@ -64,21 +64,21 @@ public class User {
     public String getContrasenya() {
         return contrasenya;
     }
-    public Date getUltimAcces() {
+    public Timestamp getUltimAcces() {
         return ultimAcces;
     }
-    public Date getData_creacio() {
-        return data_creacio;
+    public Timestamp getDataCreated() {
+        return dataCreated;
     }
-    public Date getData_actualitzat() {
-        return data_actualitzat;
+    public Timestamp getDataUpdated() {
+        return dataUpdated;
     }
     @Override
     public String toString() {
-        return "User [getId()=" + getId() + ", getNom()=" + getNom() + ", getDescripcio()=" + getDescripcio()
-                + ", getEmail()=" + getEmail() + ", getContrasenya()=" + getContrasenya() + ", getUltimAcces()="
-                + getUltimAcces() + ", getData_creacio()=" + getData_creacio() + ", getData_actualitzat()="
-                + getData_actualitzat() + "]";
+        return "User [Nom: " + getNom() + ", Descripció: " + getDescripcio()
+                + ", Email:" + getEmail() + ", Contrasenya: " + getContrasenya() + ", Ultim Accés: "
+                + getUltimAcces() + ",  Data Creació: " + getDataCreated() + ", Data Actualitzat: "
+                + getDataUpdated() + "]";
     }
     
     

@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.ra2.users.com_ra2_users.model.User;
 import com.ra2.users.com_ra2_users.repository.UserRepository;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,26 +43,30 @@ public class UserController {
 
     @PostMapping("/users")
     public ResponseEntity<String> createUser(@RequestBody User user) {
+        user.setDataCreated(new Timestamp(System.currentTimeMillis()));
+        user.setDataUpdated(new Timestamp(System.currentTimeMillis()));
         repository.createUser(user);
         return ResponseEntity.status(HttpStatus.CREATED).body(String.format("Usuari %s creat", user.toString()));
     }
 
     @PutMapping("/users/{user_id}")
     public ResponseEntity<String> updateUser(@PathVariable long user_id, @RequestBody User user) {
+        user.setDataUpdated(new Timestamp(System.currentTimeMillis()));
         repository.updateUser(user_id,user);
         return ResponseEntity.status(HttpStatus.OK).body(String.format("Usuari amb id %d actualitzat",user_id));
     }
 
     @PatchMapping("/users/{user_id}/name")
-    public ResponseEntity<String> updateUser(@PathVariable long id, @RequestParam String name) {
-        repository.updateUser(id, name);
-        return ResponseEntity.status(HttpStatus.OK).body(String.format("Nom de l'usuari %d actualitzat a %s",id,name));
+    public ResponseEntity<String> updateUser(@PathVariable long user_id, @RequestParam String name) {
+        Timestamp dataUpdated = new Timestamp(System.currentTimeMillis());
+        repository.updateUser(user_id, name, dataUpdated);
+        return ResponseEntity.status(HttpStatus.OK).body(String.format("Nom de l'usuari %d actualitzat a %s",user_id,name));
     }
 
     @DeleteMapping("/users/{user_id}")
-    public ResponseEntity<String> deleteUser(@PathVariable long id){
-        repository.deleteUser(id);
-        return ResponseEntity.status(HttpStatus.OK).body(String.format("Usuari amb id %d eliminat",id));
+    public ResponseEntity<String> deleteUser(@PathVariable long user_id){
+        repository.deleteUser(user_id);
+        return ResponseEntity.status(HttpStatus.OK).body(String.format("Usuari amb id %d eliminat",user_id));
 
     }
     
