@@ -6,5 +6,6 @@ CREATE TABLE IF NOT EXISTS users(
     contrasenya VARCHAR(20) NOT NULL,
     ultim_acces TIMESTAMP,
     data_creacio TIMESTAMP,
-    data_actualitzat TIMESTAMP
+    data_actualitzat TIMESTAMP,
+    image_path VARCHAR(500) NULL
     );

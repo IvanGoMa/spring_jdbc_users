@@ -66,6 +66,8 @@ public class UserRepository {
 
     }
 
-
-
+    public void addImage(long id, String path, Timestamp time){
+        String query = "UPDATE users SET image_path = ?, data_actualitzat = ? where id = ?";
+        jdbcTemplate.update(query, path, time, id);
+    }
 }
