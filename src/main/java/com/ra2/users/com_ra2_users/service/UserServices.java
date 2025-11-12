@@ -1,7 +1,5 @@
 package com.ra2.users.com_ra2_users.service;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
 import java.sql.Timestamp;
 import java.util.List;
 
@@ -11,6 +9,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.ra2.users.com_ra2_users.model.User;
 import com.ra2.users.com_ra2_users.repository.UserRepository;
+
+import java.nio.file.*;
 
 @Service
 public class UserServices {
@@ -52,9 +52,20 @@ public class UserServices {
         if (user == null){
             return String.format("No s'ha trobat cap usuari amb id %d",id) ;
         }
-        String path = "";
-        repository.addImage(id,path,new Timestamp(System.currentTimeMillis()));
-        return path;
+        String dir = "src/main/resources/private/images";
+        Path directory = Paths.get(dir);
+        Path filePath = Paths.get(dir + "/" + imageFile.getOriginalFilename());
+        
+        try{
+            Files.createDirectories(directory);
+            Files.copy(imageFile.getInputStream(),filePath);
+        }
+        catch (Exception e){
+            return "No s'ha pogut afegir la imatge";
+        }
+
+        repository.addImage(id,filePath.toString(),new Timestamp(System.currentTimeMillis()));
+        return filePath.toString();
     }
 
     public int createUsers(MultipartFile csvFile){

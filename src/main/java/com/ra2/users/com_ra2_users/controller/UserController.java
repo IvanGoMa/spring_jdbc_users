@@ -50,8 +50,18 @@ public class UserController {
     @PostMapping("/users/{user_id}/image")
     public ResponseEntity<String> addImage(@PathVariable long user_id, @RequestParam MultipartFile imageFile) {
         
-        services.addImage(user_id, imageFile);
-        return ResponseEntity.status(HttpStatus.OK).body(String.format(""));
+        String missatge = services.addImage(user_id, imageFile);
+        // Comprovar si la imatge és buida
+        if (imageFile.getSize() == 0){
+            return ResponseEntity.badRequest().body("La imatge està buida");
+        }
+        if (missatge.matches("No s'ha trobat")){
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(missatge);
+        }
+        if (missatge.matches("No s'ha pogut")){
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(missatge);
+        }
+        return ResponseEntity.ok().body(missatge);
         
     }
     
